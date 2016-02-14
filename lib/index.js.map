@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.js"],"names":[],"mappings":";;;;;;;;AAIA,qBAAO,qBAAP","file":"index.js","sourcesContent":["import './tcp-client';\nimport { getUrl } from './config';\nimport { reload } from './actions';\n\nreload(getUrl());\n"]}

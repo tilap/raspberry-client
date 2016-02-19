@@ -9,7 +9,7 @@ git clone https://github.com/christophehurpeau/raspberry-client.git
 Install dependencies
 
 ```
-cd client
+cd raspberry-client
 npm install --production
 ```
 

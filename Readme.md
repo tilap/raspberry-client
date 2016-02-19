@@ -10,7 +10,7 @@ Create supervisor config file
 
 ```
 [program:node-raspberry-client]
-command=node --harmony .../raspberry-client --port=3002 --host=myhostname
+command=node --es_staging .../raspberry-client --port=3002 --host=myhostname
 autostart=true
 autorestart=true
 redirect_stderr=true

@@ -6,6 +6,13 @@ Clone the repo
 git clone https://github.com/christophehurpeau/raspberry-client.git
 ```
 
+Install dependencies
+
+```
+cd client
+npm install --production
+```
+
 Create supervisor config file
 
 ```
@@ -16,13 +23,6 @@ autorestart=true
 redirect_stderr=true
 stdout_logfile=..../logs/raspberry-client.log
 user=evaneos
-```
-
-Install dependencies
-
-```
-cd client
-npm install --production
 ```
 
 Start the client

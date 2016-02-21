@@ -5,6 +5,7 @@ import * as actions from './actions';
 import { host, port } from './argv';
 import { updateConfig } from './config';
 import findNetworkInterface from './networkInterface';
+import { isOn as isScreenOn } from './screen';
 import { version } from '../package.json';
 
 const logger = new ConsoleLogger('app.tcp-client', LogLevel.INFO);
@@ -57,7 +58,12 @@ socket.on('connect', () => {
 
     pingInterval = setInterval(() => jsonStream.write({ type: 'ping' }), 10000);
 
-    jsonStream.write({ type: 'hello', version, ...networkInterface });
+    jsonStream.write({
+        type: 'hello',
+        version,
+        screenState: isScreenOn() ? 'on' : 'off',
+        ...networkInterface,
+    });
 });
 
 jsonStream.on('data', data => {

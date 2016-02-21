@@ -1,16 +1,8 @@
 import { spawnSync } from 'child_process';
 import { ConsoleLogger, LogLevel } from 'nightingale';
+import { runScript } from './scripts';
 
 const logger = new ConsoleLogger('app.actions', LogLevel.INFO);
-
-function runScript(script, args) {
-    logger.info('run script', { script, args });
-    try {
-        spawnSync(script, args, { stdio: 'inherit', cwd: `${__dirname}/../scripts/` });
-    } catch (err) {
-        logger.error(err.message);
-    }
-}
 
 export function reload(url) {
     runScript('screen.sh', ['reload', url]);

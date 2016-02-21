@@ -1,12 +1,13 @@
-import { ConsoleLogger } from 'nightingale';
-import findNetworkInterface from './networkInterface';
-import { createStream } from 'objectstream';
 import { Socket } from 'net';
-import { updateConfig } from './config';
+import { ConsoleLogger, LogLevel } from 'nightingale';
+import { createStream } from 'objectstream';
 import * as actions from './actions';
 import { host, port } from './argv';
+import { updateConfig } from './config';
+import findNetworkInterface from './networkInterface';
+import { version } from '../package.json';
 
-const logger = new ConsoleLogger('client');
+const logger = new ConsoleLogger('app.tcp-client', LogLevel.INFO);
 
 
 let pingInterval;
@@ -56,19 +57,22 @@ socket.on('connect', () => {
 
     pingInterval = setInterval(() => jsonStream.write({ type: 'ping' }), 10000);
 
-    jsonStream.write({ type: 'hello', ...networkInterface });
+    jsonStream.write({ type: 'hello', version, ...networkInterface });
 });
 
 jsonStream.on('data', data => {
+    if (data.type === 'ping') {
+        logger.debug('ping');
+        return;
+    }
+
     logger.info('data', data);
     switch (data.type) {
-        case 'ping':
-            break;
         case 'update-config':
             updateConfig(data.config);
             break;
         case 'refresh':
-        case 'self-update':
+        case 'selfUpdate':
             actions[data.type]();
             break;
         default:

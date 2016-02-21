@@ -1,7 +1,7 @@
 import { spawnSync } from 'child_process';
-import { ConsoleLogger } from 'nightingale';
+import { ConsoleLogger, LogLevel } from 'nightingale';
 
-const logger = new ConsoleLogger('actions');
+const logger = new ConsoleLogger('app.actions', LogLevel.INFO);
 
 function runScript(script, args) {
     logger.info('run script', { script, args });
@@ -25,6 +25,7 @@ export function selfUpdate() {
     try {
         spawnSync('git', ['pull'], { stdio: 'inherit', cwd: `${__dirname}/../` });
         spawnSync('npm', ['install', '--production'], { stdio: 'inherit', cwd: `${__dirname}/../` });
+        spawnSync('npm', ['prune', '--production'], { stdio: 'inherit', cwd: `${__dirname}/../` });
         spawnSync('sudo', ['supervisorctl', 'restart', 'node-raspberry-client']);
     } catch (err) {
         logger.error(err.message);

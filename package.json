@@ -1,6 +1,6 @@
 {
   "name": "raspberry-client",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Raspberry client",
   "main": "lib/index.js",
   "scripts": {
@@ -28,7 +28,7 @@
   "dependencies": {
     "json-tcp-socket": "^1.0.3",
     "minimist": "^1.2.0",
-    "nightingale": "^2.3.0",
+    "nightingale": "^3.0.4",
     "objectstream": "0.0.4"
   }
 }

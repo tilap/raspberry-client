@@ -2,15 +2,7 @@ import { spawnSync } from 'child_process';
 import { ConsoleLogger, LogLevel } from 'nightingale';
 import { runScript } from './scripts';
 
-const logger = new ConsoleLogger('app.actions', LogLevel.INFO);
-
-export function reload(url) {
-    runScript('screen.sh', ['reload', url]);
-}
-
-export function refresh() {
-    runScript('screen.sh', ['refresh']);
-}
+const logger = new ConsoleLogger('app.update', LogLevel.INFO);
 
 export function selfUpdate() {
     logger.info('self update');

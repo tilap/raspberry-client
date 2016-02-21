@@ -1,29 +1,31 @@
 #!/bin/bash
 
 case "$1" in
-    start)
+    on)
         /opt/vc/bin/tvservice -p
         sudo supervisorctl start openbox
     ;;
-    stop)
+    off)
         echo "stop"
         /opt/vc/bin/tvservice -o
         sudo supervisorctl stop browser
         sudo supervisorctl stop openbox
     ;;
-    status)
-        /opt/vc/bin/tvservice -s | grep off
+    state)
+        tvstate=`/opt/vc/bin/tvservice -s`
         if [ $? != 0 ] ; then
-            echo 'on'
-        else
+            echo 'unavailable'
+        elif [[ $tvstate == *"off"* ]] ; then
             echo 'off'
+        else
+            echo 'on'
         fi
     ;;
     subscribe)
         /opt/vc/bin/tvservice -M
     ;;
     *)
-        echo "Usage screen.sh {start|stop|status}"
+        echo "Usage screen.sh {on|off|state|subscribe}"
         exit 1
     ;;
 esac

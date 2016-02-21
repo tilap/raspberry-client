@@ -1,5 +1,5 @@
 import './tcp-client';
 import { getUrl } from './config';
-import { reload } from './actions';
+import { update } from './display';
 
-// reload(getUrl());
+update();

@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { host } from './argv';
+import deepEqual from 'deep-equal';
 
 const configFilename = `${__dirname}/../data/config.json`;
 let config = (() => {
@@ -15,9 +16,19 @@ function save() {
 }
 
 export function updateConfig(newConfig) {
+    if (deepEqual(config, newConfig)) {
+        return false;
+    }
+
     config = newConfig;
     save();
+    return true;
 }
+
+export function getTime() {
+    return config.time;
+}
+
 
 export function getUrl() {
     return config.url;

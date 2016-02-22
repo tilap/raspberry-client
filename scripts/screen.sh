@@ -8,7 +8,6 @@ case "$1" in
     off)
         echo "stop"
         /opt/vc/bin/tvservice -o
-        sudo supervisorctl stop browser
         sudo supervisorctl stop openbox
     ;;
     state)

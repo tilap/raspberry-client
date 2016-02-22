@@ -96,6 +96,8 @@ jsonStream.on('data', data => {
                 case 'refresh':
                     return display.refresh();
             }
+            logger.warn(`unknown action: ${data.action}`);
+            return;
 
         default:
             logger.warn(`unknown type: ${data.type}`);
@@ -104,12 +106,11 @@ jsonStream.on('data', data => {
 
 _connect();
 
-
 export function sendUpdate(data) {
     if (jsonStream.writable || socket.writable) {
         jsonStream.write({
             type: 'update',
-            ...data
+            ...data,
         });
     }
 }

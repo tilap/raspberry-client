@@ -49,7 +49,7 @@ case "$1" in
         exit 1
     fi
 
-    start_browser
+    start_browser "$2"
   ;;
   stop)
     stop_browser

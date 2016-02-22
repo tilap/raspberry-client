@@ -11,8 +11,8 @@ case "$1" in
         sudo supervisorctl stop openbox
     ;;
     state)
-        tvstate=`/opt/vc/bin/tvservice -s`
-        if [ $? != 0 ] ; then
+        tvstate=`/opt/vc/bin/tvservice -s 2>&1`
+        if [[ $? != 0 ]] || [[ $tvstate == *"Failed to connect"* ]] ; then
             echo 'unavailable'
         elif [[ $tvstate == *"off"* ]] ; then
             echo 'off'

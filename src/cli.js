@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { Socket } from 'net';
 import { ConsoleLogger, LogLevel } from 'nightingale';
 const argv = require('minimist-argv');

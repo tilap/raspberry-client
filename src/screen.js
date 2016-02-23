@@ -48,7 +48,7 @@ setInterval(checkState, 60000);
 function checkState() {
     const newScreenState = state();
     if (newScreenState != currentScreenState) {
-        logger.info('screen state changed', { old: currentScreenState, new: newScreenState })
+        logger.info('screen state changed', { old: currentScreenState, new: newScreenState });
         currentScreenState = newScreenState;
         sendUpdate({ screenState: newScreenState });
         if (currentScreenState !== 'on') {

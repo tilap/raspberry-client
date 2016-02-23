@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/christophehurpeau/raspberry-client#readme",
   "devDependencies": {
-    "springbokjs-library": "^14.0.1"
+    "eslint": "^1.10.3",
+    "springbokjs-library": "^15.0.0"
   },
   "dependencies": {
     "deep-equal": "^1.0.1",

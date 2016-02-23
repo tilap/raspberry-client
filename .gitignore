@@ -4,14 +4,14 @@
 /build
 node_modules
 
-/data
-/socket
-
 /.settings
 /.project
 *.sublime-project
 *.sublime-workspace
 /.idea
+
+/data
+/socket
 
 #*
 *$

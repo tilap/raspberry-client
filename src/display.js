@@ -26,7 +26,6 @@ export function start() {
         if (autoRestart) {
             start();
         }
-        childProcess.off('close');
     });
 }
 

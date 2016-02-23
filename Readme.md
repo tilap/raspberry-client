@@ -28,5 +28,5 @@ user=evaneos
 Start the client
 
 ```
-sudo supervisorctl reread && sudo supervisorctl reload
+sudo supervisorctl reread && sudo supervisorctl update
 ```

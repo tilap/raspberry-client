@@ -47,7 +47,6 @@ case "$1" in
 
     start_browser "$2"
   ;;
-  ;;
   load)
     if [ -z "$2" ]
       then

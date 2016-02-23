@@ -22,10 +22,6 @@ function start_browser {
     kweb3 -AKJEPX+-ri "$1"
 }
 
-function stop_browser {
-    killall kweb3
-}
-
 function display_url {
     if [ -z "$1" ]
       then
@@ -51,8 +47,6 @@ case "$1" in
 
     start_browser "$2"
   ;;
-  stop)
-    stop_browser
   ;;
   load)
     if [ -z "$2" ]
@@ -72,7 +66,7 @@ case "$1" in
     xdotool keyup Alt+Left
   ;;
   *)
-    echo "Usage browser.sh {start <url>|stop|refresh|load <url>}"
+    echo "Usage browser.sh {start <url>|refresh|load <url>}"
     exit 1
   ;;
 esac

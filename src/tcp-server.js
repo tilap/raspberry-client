@@ -2,9 +2,8 @@ import { createServer } from 'net';
 import { unlinkSync } from 'fs';
 import { ConsoleLogger, LogLevel } from 'nightingale';
 import { createStream } from 'objectstream';
-
-import { currentScreenState } from './screen';
 import * as screen from './screen';
+import * as display from './display';
 import { selfUpdate } from './update';
 
 const logger = new ConsoleLogger('app.tcp-server', LogLevel.INFO);
@@ -26,6 +25,12 @@ function run(data) {
                     return screen[data._[1]]();
             }
             throw new Error(`Unsupported screen instruction: ${data._[1]}`);
+        case 'display':
+            switch (data._[1]) {
+                case 'openbox-started':
+                case 'restart':
+                    return display.restart();
+            }
     }
     throw new Error(`Unsupported instruction: ${action}`);
 }

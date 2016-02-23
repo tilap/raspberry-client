@@ -28,7 +28,7 @@
   "dependencies": {
     "deep-equal": "^1.0.1",
     "json-tcp-socket": "^1.0.3",
-    "minimist": "^1.2.0",
+    "minimist-argv": "^1.0.0",
     "nightingale": "^3.0.4",
     "objectstream": "0.0.4"
   }

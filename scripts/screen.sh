@@ -3,12 +3,9 @@
 case "$1" in
     on)
         /opt/vc/bin/tvservice -p
-        sudo supervisorctl start openbox
     ;;
     off)
-        echo "stop"
         /opt/vc/bin/tvservice -o
-        sudo supervisorctl stop openbox
     ;;
     state)
         tvstate=`/opt/vc/bin/tvservice -s 2>&1`

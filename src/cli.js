@@ -1,7 +1,19 @@
 import { Socket } from 'net';
 import { ConsoleLogger, LogLevel } from 'nightingale';
-const argv = require('minimist')(process.argv.slice(2));
+const argv = require('minimist-argv');
 import { createStream } from 'objectstream';
+
+if (!argv._[0]) {
+    console.log('Usage: cli <action> [args]');
+    console.log('actions:');
+    console.log('  - self-update');
+    console.log('  - screen');
+    console.log('      on: turn the screen on');
+    console.log('      off: turn the screen off');
+    console.log('      state: display the current state of the screen');
+    console.log('  - display');
+    console.log('      restart: restart the current display (kweb3 / twitch / ...)');
+}
 
 const logger = new ConsoleLogger('cli', LogLevel.INFO);
 

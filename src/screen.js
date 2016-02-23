@@ -26,7 +26,7 @@ export function off() {
 /**
  * @returns {string} on|off|unavailable
  */
-function state() {
+export function state() {
     return runScript('./screen.sh', ['state']);
 }
 

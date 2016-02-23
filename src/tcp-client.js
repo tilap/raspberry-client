@@ -12,7 +12,7 @@ import { version } from '../package.json';
 
 const logger = new ConsoleLogger('app.tcp-client', LogLevel.INFO);
 
-
+let autorestart = true;
 let pingInterval;
 const socket = new Socket({ host, port });
 const jsonStream = createStream(socket);
@@ -32,13 +32,15 @@ socket.on('error', err => {
 });
 
 socket.on('end', () => {
-    logger.warn(`socket ended`);
+    logger[autorestart ? 'warn' : 'info'](`Closed`);
 
     if (pingInterval) {
         clearInterval(pingInterval);
     }
 
-    setTimeout(() => _connect(), 1000);
+    if (autorestart) {
+        setTimeout(() => _connect(), 1000);
+    }
 });
 
 function _connect() {
@@ -58,7 +60,7 @@ socket.on('connect', () => {
     const networkInterface = findNetworkInterface();
     logger.info(`connected to ${host}:${port}`, { networkInterface });
 
-    pingInterval = setInterval(() => jsonStream.write({ type: 'ping' }), 10000);
+    pingInterval = setInterval(() => jsonStream.write({ type: 'ping' }), 30000);
 
     jsonStream.write({
         type: 'hello',
@@ -111,6 +113,21 @@ export function sendUpdate(data) {
         jsonStream.write({
             type: 'update',
             ...data,
+        });
+    }
+}
+
+
+export function close() {
+    autorestart = false;
+    if (socket.writable) {
+        return new Promise((resolve) => {
+            logger.info('Closing...');
+            socket.end(() => {
+                socket.once('end', () => {
+                    resolve();
+                });
+            });
         });
     }
 }

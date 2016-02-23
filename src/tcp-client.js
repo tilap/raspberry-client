@@ -86,15 +86,23 @@ jsonStream.on('data', data => {
             }
             return;
 
+        case 'self-upgrade':
+        case 'self-update':
         case 'selfUpdate':
             return selfUpdate();
 
         case 'action':
             switch (data.action) {
+                case 'self-upgrade':
+                case 'self-update':
+                case 'selfUpdate':
+                    return selfUpdate();
+
                 case 'screen-off':
                     return screen.off();
                 case 'screen-on':
                     return screen.on();
+
                 case 'refresh':
                     return display.refresh();
             }

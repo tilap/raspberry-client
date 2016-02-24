@@ -30,6 +30,6 @@ export function getTime() {
 }
 
 
-export function getUrl() {
-    return config.url;
+export function get() {
+    return config;
 }

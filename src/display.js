@@ -1,5 +1,5 @@
 import { ConsoleLogger, LogLevel } from 'nightingale';
-import { getUrl } from './config';
+import { get as getConfig } from './config';
 import { runScript, spawn } from './scripts';
 
 const logger = new ConsoleLogger('app.display', LogLevel.INFO);
@@ -9,7 +9,7 @@ export function refresh() {
 }
 
 export function update() {
-    return runScript('./browser.sh', ['load', getUrl()]);
+    return runScript('./browser.sh', ['load', getConfig().url]);
 }
 
 let autoRestart;
@@ -22,7 +22,10 @@ export function start() {
 
     logger.info('start display');
     autoRestart = true;
-    childProcess = spawn('./browser.sh', ['start', getUrl()]);
+
+    const config = getConfig();
+    const script = config.display === 'livestreamer' ? 'livestreamer' : 'browser';
+    childProcess = spawn(`./${script}.sh`, ['start', config.url]);
     childProcess.stdout.on('data', data => logger.debug(data.toString()));
     childProcess.stderr.on('data', data => logger.error(data.toString()));
     childProcess.on('close', code => {

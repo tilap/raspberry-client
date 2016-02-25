@@ -5,61 +5,28 @@ import * as display from './display';
 
 const logger = new ConsoleLogger('app.screen', LogLevel.INFO);
 
-function checkStateWhile(expectedState, ms) {
-    const newState = checkState();
-    if (newState !== expectedState) {
-        setTimeout(() => checkStateWhile(expectedState, ms), ms);
-    }
-}
-
-
-export function on() {
-    runScript('./screen.sh', ['on']);
-    checkStateWhile('on', 500);
-}
-
-export function off() {
-    runScript('./screen.sh', ['off']);
-    checkStateWhile('off', 500);
-}
+export let currentScreenState = state();
 
 /**
  * @returns {string} on|off|unavailable
  */
-export function state() {
+function state() {
     return runScript('./screen.sh', ['state']);
 }
 
-export let currentScreenState = state();
-
-/**
- * @returns {string} on|off
- */
-function subscribe() {
-    return listenScript('./screen.sh', ['subscribe'], () => {
-        if (currentScreenState !== 'off') {
-            checkState();
-        }
-    });
+export function on() {
+    logger.info('turning screen on');
+    runScript('./screen.sh', ['on']);
+    currentScreenState = 'on';
+    sendUpdate({ screenState: currentScreenState });
 }
 
-setInterval(checkState, 60000);
-
-function checkState() {
-    const newScreenState = state();
-    if (newScreenState != currentScreenState) {
-        logger.info('screen state changed', { old: currentScreenState, new: newScreenState });
-        currentScreenState = newScreenState;
-        sendUpdate({ screenState: newScreenState });
-        if (currentScreenState !== 'on') {
-            display.stop();
-        }
-    }
-    return newScreenState;
+export function off() {
+    logger.info('turning screen off');
+    runScript('./screen.sh', ['off']);
+    currentScreenState = 'off';
+    sendUpdate({ screenState: currentScreenState });
 }
-
-
-subscribe();
 
 if (currentScreenState === 'on') {
     display.start();

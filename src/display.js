@@ -54,11 +54,14 @@ export function restart() {
 
 
 export function stop() {
-    logger.info('stop display');
+    logger.info('stoping display');
     autoRestart = false;
     if (childProcess) {
         return new Promise((resolve) => {
-            childProcess.once('close', () => resolve());
+            childProcess.once('close', () => {
+                logger.info('display stopped');
+                resolve();
+            });
             childProcess.kill();
             childProcess = null;
         });

@@ -21,11 +21,12 @@ let childProcess;
 
 export function start() {
     if (runOpenBox() !== 'started') {
+        logger.warn('openbox not yet started');
         return;
     }
 
-
     if (childProcess) {
+        logger.warn('restarting');
         return restart();
     }
 

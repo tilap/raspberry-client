@@ -27,7 +27,9 @@ function run(data) {
             throw new Error(`Unsupported screen instruction: ${data._[1]}`);
         case 'display':
             switch (data._[1]) {
+                case 'start':
                 case 'openbox-started':
+                    return display.start();
                 case 'restart':
                     return display.restart();
             }

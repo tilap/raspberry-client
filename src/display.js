@@ -12,12 +12,21 @@ export function update() {
     return runScript('./browser.sh', ['load', getConfig().url]);
 }
 
+export function runOpenBox() {
+    return runScript('./openbox.sh', ['start']);
+}
+
 let autoRestart;
 let childProcess;
 
 export function start() {
-    if (childProcess) {
+    if (runOpenBox() !== 'started') {
         return;
+    }
+
+
+    if (childProcess) {
+        return restart();
     }
 
     logger.info('start display');

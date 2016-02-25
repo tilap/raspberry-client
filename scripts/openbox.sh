@@ -2,15 +2,15 @@
 
 case "$1" in
     start)
-        sudo supervisorctl start openbox
-    ;;
-    restart)
-       result=`sudo supervisorctl restart openbox 2>&1`
+       result=`sudo supervisorctl start openbox 2>&1`
        if [[ $result == *"already started"* ]] ; then
            echo 'started'
        else
            echo 'starting'
        fi
+    ;;
+    restart)
+        sudo supervisorctl restart openbox
     ;;
     stop)
         sudo supervisorctl stop openbox

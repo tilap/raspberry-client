@@ -2,6 +2,7 @@
 
 case "$1" in
   start)
+        killall livestreamer
         livestreamer $2 best -np omxplayer
   ;;
   *)

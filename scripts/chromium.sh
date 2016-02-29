@@ -7,6 +7,8 @@ function start_browser {
         exit 1
     fi
 
+    killall chromium-browser
+
     export DISPLAY=:0
     chromium-browser --no-first-run --noerrdialogs --kiosk "$1" --incognito
 }

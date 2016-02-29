@@ -11,6 +11,8 @@ function start_browser {
     xset s off -dpms
     unclutter -display $DISPLAY &
 
+    killall kweb3
+
     # A - have to press Left Alt key for shortcuts
     # K - enable kiosk mode
     # J - enable javascript

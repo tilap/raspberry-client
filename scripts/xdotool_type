@@ -1,0 +1,18 @@
+#/bin/bash
+
+export DISPLAY='$DISPLAY'
+
+IFS='"'?'"' read -ra url <<< "$1"
+count=${#url[@]}
+
+for index in "${!url[@]}"; do
+
+    xdotool type "${url[$index]}"
+
+    next=$[index+1]
+    if [ "$count" -eq "$next" ] ; then
+      break 
+    fi
+
+    xdotool key question
+done

@@ -7,20 +7,8 @@ function start_browser {
         exit 1
     fi
 
-    chromium-browser --noerrdialogs --kiosk "$1" --incognito
-}
-
-function display_url {
-    if [ -z "$1" ]
-      then
-        echo "you need to provide an url as parameter"
-        exit 1
-    fi
-
     export DISPLAY=:0
-    xdotool key F6
-    /home/pi/xdotool_type "$1"
-    xdotool key KP_Enter
+    chromium-browser --no-first-run --noerrdialogs --kiosk "$1" --incognito
 }
 
 case "$1" in
@@ -32,16 +20,6 @@ case "$1" in
     fi
 
     start_browser "$2"
-  ;;
-  load)
-    if [ -z "$2" ]
-      then
-        echo "load command needs an url as a parameter"
-        exit 1
-    fi
-
-    echo "Load url: $2"
-    display_url "$2"
   ;;
   refresh)
     echo "refresh"

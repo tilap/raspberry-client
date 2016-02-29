@@ -11,7 +11,11 @@ export function refresh() {
 
 export function update() {
     const config = getConfig();
-    return runScript(`./${config.display}.sh`, ['load', config.url]);
+    if (config.display === 'kweb3') {
+        return runScript(`./${config.display}.sh`, ['load', config.url]);
+    } else {
+        return restart();
+    }
 }
 
 function runOpenBox() {

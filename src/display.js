@@ -5,14 +5,16 @@ import { runScript, spawn } from './scripts';
 const logger = new ConsoleLogger('app.display', LogLevel.INFO);
 
 export function refresh() {
-    return runScript('./browser.sh', ['refresh']);
+    const config = getConfig();
+    return runScript(`./${config.display}.sh`, ['refresh']);
 }
 
 export function update() {
-    return runScript('./browser.sh', ['load', getConfig().url]);
+    const config = getConfig();
+    return runScript(`./${config.display}.sh`, ['load', config.url]);
 }
 
-export function runOpenBox() {
+function runOpenBox() {
     return runScript('./openbox.sh', ['start']);
 }
 
@@ -34,7 +36,16 @@ export function start() {
     autoRestart = true;
 
     const config = getConfig();
-    const script = config.display === 'livestreamer' ? 'livestreamer' : 'browser';
+
+    if (['livestreamer', 'kweb3', 'chromium', 'browser'].indexOf(config.display) === -1) {
+        config.display = 'browser';
+    }
+
+    let script = config.display;
+    if (script === 'browser') {
+        script = 'kweb3';
+    }
+
     childProcess = spawn(`./${script}.sh`, ['start', config.url]);
     childProcess.stdout.on('data', data => logger.debug(data.toString()));
     childProcess.stderr.on('data', data => logger.error(data.toString()));
@@ -53,10 +64,17 @@ export function restart() {
 }
 
 
+let killing = false;
 export function stop() {
     logger.info('stoping display');
     autoRestart = false;
     if (childProcess) {
+        if (killing) {
+            childProcess.kill('SIGKILL');
+            return Promise.reject();
+        }
+
+        killing = true;
         return new Promise((resolve) => {
             childProcess.once('close', () => {
                 logger.info('display stopped');
@@ -64,6 +82,7 @@ export function stop() {
             });
             childProcess.kill();
             childProcess = null;
+            killing = false;
         });
     }
 }

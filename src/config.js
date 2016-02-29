@@ -7,7 +7,7 @@ let config = (() => {
     try {
         return JSON.parse(readFileSync(configFilename));
     } catch (err) {
-        return { url: `http://${host}/no-config` };
+        return { url: `https://${host}/no-config` };
     }
 })();
 
@@ -28,7 +28,6 @@ export function updateConfig(newConfig) {
 export function getTime() {
     return config.time;
 }
-
 
 export function get() {
     return config;

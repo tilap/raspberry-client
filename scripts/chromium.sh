@@ -7,7 +7,7 @@ function start_browser {
         exit 1
     fi
 
-    chromium --noerrdialogs --kiosk "$1" --incognito
+    chromium-browser --noerrdialogs --kiosk "$1" --incognito
 }
 
 function display_url {

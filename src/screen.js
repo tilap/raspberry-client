@@ -19,6 +19,7 @@ export function on() {
     runScript('./screen.sh', ['on']);
     currentScreenState = 'on';
     sendUpdate({ screenState: currentScreenState });
+    display.start();
 }
 
 export function off() {
@@ -26,6 +27,7 @@ export function off() {
     runScript('./screen.sh', ['off']);
     currentScreenState = 'off';
     sendUpdate({ screenState: currentScreenState });
+    display.stop();
 }
 
 if (currentScreenState === 'on') {

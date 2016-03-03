@@ -2,7 +2,8 @@
 
 case "$1" in
   start)
-        killall livestreamer
+        killall livestreamer 2>/dev/null
+        killall omxplayer.bin 2>/dev/null
         livestreamer $2 best -np omxplayer
   ;;
   *)

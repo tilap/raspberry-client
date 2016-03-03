@@ -74,19 +74,29 @@ export function stop() {
     autoRestart = false;
     if (childProcess) {
         if (killing) {
-            childProcess.kill('SIGKILL');
-            return Promise.reject();
+            return new Promise((resolve, reject) => {
+                killing
+                    .then(() => resolve())
+                    .catch(err => reject(err));
+            });
         }
 
-        killing = true;
         return new Promise((resolve) => {
-            childProcess.once('close', () => {
-                logger.info('display stopped');
-                resolve();
+            killing = new Promise((resolveKilling) => {
+                const timeoutForceKill = setTimeout(() => {
+                    childProcess.kill('SIGKILL');
+                }, 10000);
+                childProcess.once('exit', () => {
+                    logger.info('display stopped');
+                    resolve();
+                    resolveKilling();
+                    childProcess = null;
+                    killing = false;
+                    clearTimeout(timeoutForceKill);
+                    process.nextTick(() => childProcess.removeAllListeners());
+                });
+                childProcess.kill();
             });
-            childProcess.kill();
-            childProcess = null;
-            killing = false;
         });
     }
 }

@@ -96,7 +96,7 @@ export function stop() {
                     clearTimeout(timeoutForceKill);
                     process.nextTick(() => cp.removeAllListeners());
                 });
-                childProcess.kill();
+                childProcess.kill('SIGINT');
             });
         });
     }

@@ -86,7 +86,7 @@ export function stop() {
                 const timeoutForceKill = setTimeout(() => {
                     childProcess.kill('SIGKILL');
                 }, 10000);
-                childProcess.once('exit', () => {
+                childProcess.once('close', () => {
                     let cp = childProcess;
                     logger.info('display stopped');
                     resolve();

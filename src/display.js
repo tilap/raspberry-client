@@ -32,11 +32,11 @@ export function start() {
     }
 
     if (childProcess) {
-        logger.warn('restarting');
+        logger.warn('start: already started');
         return restart();
     }
 
-    logger.info('start display');
+    logger.info('starting...');
     autoRestart = true;
 
     const config = getConfig();
@@ -50,6 +50,7 @@ export function start() {
         script = 'kweb3';
     }
 
+    logger.info('start', { script, url: config.url });
     childProcess = spawn(`./${script}.sh`, ['start', config.url]);
     childProcess.stdout.on('data', data => logger.debug(data.toString()));
     childProcess.stderr.on('data', data => logger.error(data.toString()));
@@ -63,6 +64,7 @@ export function start() {
 }
 
 export function restart() {
+    logger.info('restarting...');
     Promise.resolve(stop())
         .then(() => start());
 }
@@ -70,9 +72,9 @@ export function restart() {
 
 let killing = false;
 export function stop() {
-    logger.info('stoping display');
     autoRestart = false;
     if (childProcess) {
+        logger.info('stop: already stopping');
         if (killing) {
             return new Promise((resolve, reject) => {
                 killing
@@ -80,10 +82,12 @@ export function stop() {
                     .catch(err => reject(err));
             });
         }
+        logger.info('stopping...');
 
         return new Promise((resolve) => {
             killing = new Promise((resolveKilling) => {
                 const timeoutForceKill = setTimeout(() => {
+                    logger.info('sending SIGKILL');
                     childProcess.kill('SIGKILL');
                 }, 10000);
                 childProcess.once('close', () => {

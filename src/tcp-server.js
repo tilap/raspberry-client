@@ -32,7 +32,10 @@ function run(data) {
                     return display.start();
                 case 'restart':
                     return display.restart();
+                case 'refresh':
+                    return display.refresh();
             }
+            throw new Error(`Unsupported display instruction: ${data._[1]}`);
     }
     throw new Error(`Unsupported instruction: ${action}`);
 }

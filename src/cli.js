@@ -15,6 +15,7 @@ if (!argv._[0]) {
     console.log('      state: display the current state of the screen');
     console.log('  - display');
     console.log('      restart: restart the current display (kweb3 / twitch / ...)');
+    console.log('      refresh: refresh the browser (only for kweb3/chromimum)');
 }
 
 const logger = new ConsoleLogger('cli', LogLevel.INFO);

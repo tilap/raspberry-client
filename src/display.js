@@ -33,7 +33,7 @@ export function start() {
 
     if (childProcess) {
         logger.warn('start: already started');
-        return restart();
+        return;
     }
 
     logger.info('starting...');
@@ -65,48 +65,13 @@ export function start() {
 
 export function restart() {
     logger.info('restarting...');
-    Promise.resolve(stop())
-        .then(() => start());
+    stop();
+    return start();
 }
 
-
-let killing = false;
 export function stop() {
     autoRestart = false;
-    if (childProcess) {
-        logger.info('stop: already stopping');
-        if (killing) {
-            return new Promise((resolve, reject) => {
-                killing
-                    .then(() => resolve())
-                    .catch(err => reject(err));
-            });
-        }
-        logger.info('stopping...');
-
-        return new Promise((resolve) => {
-            killing = new Promise((resolveKilling) => {
-                const timeoutForceKill = setTimeout(() => {
-                    logger.info('sending SIGKILL');
-                    childProcess.kill('SIGKILL');
-                }, 10000);
-                childProcess.once('close', () => {
-                    logger.info('display stopped');
-                    let cp = childProcess;
-                    if (cp) {
-                        resolve();
-                        resolveKilling();
-                        childProcess = null;
-                        killing = false;
-                        clearTimeout(timeoutForceKill);
-                        process.nextTick(() => cp.removeAllListeners());
-                    }
-                });
-
-                // send both SIGINT and SIGTERM
-                childProcess.kill('SIGINT');
-                childProcess.kill('SIGTERM');
-            });
-        });
-    }
+    childProcess = null;
+    childProcess.removeAllListeners();
+    runScript(`./display.sh`, ['stop']);
 }

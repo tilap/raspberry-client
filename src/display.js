@@ -91,14 +91,16 @@ export function stop() {
                     childProcess.kill('SIGKILL');
                 }, 10000);
                 childProcess.once('close', () => {
-                    let cp = childProcess;
                     logger.info('display stopped');
-                    resolve();
-                    resolveKilling();
-                    childProcess = null;
-                    killing = false;
-                    clearTimeout(timeoutForceKill);
-                    process.nextTick(() => cp.removeAllListeners());
+                    let cp = childProcess;
+                    if (cp) {
+                        resolve();
+                        resolveKilling();
+                        childProcess = null;
+                        killing = false;
+                        clearTimeout(timeoutForceKill);
+                        process.nextTick(() => cp.removeAllListeners());
+                    }
                 });
 
                 // send both SIGINT and SIGTERM

@@ -5,18 +5,18 @@ import * as display from './display';
 
 const logger = new ConsoleLogger('cron', LogLevel.INFO);
 
-schedule('0 30 8 * 1-5', () => {
-    logger.log('screen on');
+schedule('30 8 * * 1-5', () => {
+    logger.info('screen on');
     screen.on();
 });
 
 
-schedule('0 0 20 * 1-5', () => {
-    logger.log('screen off');
+schedule('0 20 * * 1-5', () => {
+    logger.info('screen off');
     screen.off();
 });
 
-schedule('* */30 9-19 * 1-5', () => {
-    logger.log('refresh');
+schedule('*/30 9-19 * * 1-5', () => {
+    logger.info('refresh');
     display.refresh();
 });

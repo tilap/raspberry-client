@@ -71,7 +71,9 @@ export function restart() {
 
 export function stop() {
     autoRestart = false;
+    if (childProcess) {
+        childProcess.removeAllListeners();
+    }
     childProcess = null;
-    childProcess.removeAllListeners();
     runScript(`./display.sh`, ['stop']);
 }

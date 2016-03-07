@@ -3,7 +3,7 @@ import { close as clientClose } from './tcp-client';
 import { close as serverClose } from './tcp-server';
 import './display';
 
-process.on('SIGINT', () => {
+export function exit() {
     Promise.all([
         stopDisplay(),
         clientClose(),
@@ -11,5 +11,9 @@ process.on('SIGINT', () => {
     ]).then(() => {
         process.exit();
     });
+}
+
+process.on('SIGINT', () => {
+    exit();
 });
 

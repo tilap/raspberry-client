@@ -1,6 +1,7 @@
 import { spawnSync } from 'child_process';
 import { ConsoleLogger, LogLevel } from 'nightingale';
 import { sendUpdate } from './tcp-client';
+import { exit } from './index';
 
 const logger = new ConsoleLogger('app.update', LogLevel.INFO);
 
@@ -19,7 +20,7 @@ export function selfUpdate() {
         spawnSync('git', ['pull'], { stdio: 'inherit', cwd: `${__dirname}/../` });
         spawnSync('npm', ['install', '--production'], { stdio: 'inherit', cwd: `${__dirname}/../` });
         spawnSync('npm', ['prune', '--production'], { stdio: 'inherit', cwd: `${__dirname}/../` });
-        spawnSync('sudo', ['supervisorctl', 'restart', 'node-raspberry-client']);
+        exit();
         return true;
     } catch (err) {
         logger.error(err.message);

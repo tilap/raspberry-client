@@ -16,7 +16,7 @@ schedule('0 20 * * 1-5', () => {
     screen.off();
 });
 
-schedule('*/30 9-19 * * 1-5', () => {
+schedule('*/30 9,10,11,12,13,14,15,16,17,18,19 * * 1-5', () => {
     logger.info('refresh');
     display.refresh();
 });

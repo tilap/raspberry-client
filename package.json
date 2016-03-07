@@ -31,6 +31,7 @@
     "json-tcp-socket": "^1.0.3",
     "minimist-argv": "^1.0.0",
     "nightingale": "^3.0.4",
+    "node-cron": "^1.1.1",
     "objectstream": "0.0.4"
   }
 }

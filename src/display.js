@@ -4,9 +4,17 @@ import { runScript, spawn } from './scripts';
 
 const logger = new ConsoleLogger('app.display', LogLevel.INFO);
 
+let autoRestart;
+let childProcess;
+
 export function refresh() {
-    const config = getConfig();
-    return runScript(`./${config.display}.sh`, ['refresh']);
+    if (childProcess) {
+        logger.log('refresh');
+        const config = getConfig();
+        return runScript(`./${config.display}.sh`, ['refresh']);
+    } else {
+        logger.warn('display stopped');
+    }
 }
 
 export function update() {
@@ -21,9 +29,6 @@ export function update() {
 function runOpenBox() {
     return runScript('./openbox.sh', ['start']);
 }
-
-let autoRestart;
-let childProcess;
 
 export function start() {
     if (runOpenBox() !== 'started') {
@@ -41,15 +46,7 @@ export function start() {
 
     const config = getConfig();
 
-    if (['livestreamer', 'kweb3', 'chromium', 'browser'].indexOf(config.display) === -1) {
-        config.display = 'browser';
-    }
-
     let script = config.display;
-    if (script === 'browser') {
-        script = 'kweb3';
-    }
-
     logger.info('start', { script, url: config.url });
     childProcess = spawn(`./${script}.sh`, ['start', config.url]);
     childProcess.stdout.on('data', data => logger.debug(data.toString()));
@@ -75,5 +72,8 @@ export function stop() {
         childProcess.removeAllListeners();
     }
     childProcess = null;
-    runScript(`./display.sh`, ['stop']);
+
+    let script = getConfig().display;
+    logger.info('stop', { script });
+    runScript(`./${script}.sh`, ['stop']);
 }

@@ -43,6 +43,10 @@ socket.on('end', () => {
     }
 });
 
+socket.setTimeout(120000, () => {
+    socket.destroy(new Error('timeout'));
+});
+
 function _connect() {
     if (socket.writable) {
         return;

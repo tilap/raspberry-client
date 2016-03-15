@@ -2,8 +2,7 @@
 
 case "$1" in
   start)
-        killall livestreamer 2>/dev/null
-        killall omxplayer.bin 2>/dev/null
+        ./display.sh stop
         livestreamer $2 best -np omxplayer
   ;;
   *)

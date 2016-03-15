@@ -9,7 +9,7 @@ case "$1" in
     killall omxplayer.bin 2>/dev/null
   ;;
   *)
-    echo "Usage browser.sh {start <url>|refresh|load <url>}"
+    echo "Usage display.sh {stop}"
     exit 1
   ;;
 esac

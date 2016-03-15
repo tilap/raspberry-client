@@ -2,7 +2,7 @@
 
 case "$1" in
   start)
-        ./display.sh stop
+        sh ./display.sh stop
         livestreamer $2 best -np omxplayer
   ;;
   *)

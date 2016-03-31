@@ -1,13 +1,24 @@
 import { readFileSync, writeFileSync } from 'fs';
-import { host } from './argv';
 import deepEqual from 'deep-equal';
+import { host } from './argv';
+import findNetworkInterface from './networkInterface';
 
 const configFilename = `${__dirname}/../data/config.json`;
 let config = (() => {
     try {
         return JSON.parse(readFileSync(configFilename));
     } catch (err) {
-        return { url: `${host}/no-config` };
+        const networkInterface = (() => {
+            try {
+                return findNetworkInterface();
+            } catch (err) {
+                return null;
+            }
+        })();
+        return {
+            display: 'kweb3',
+            url: `${host}/no-config?ip=${networkInterface && networkInterface.ip}`,
+        };
     }
 })();
 

@@ -1,7 +1,7 @@
 import { Socket } from 'net';
 import { ConsoleLogger, LogLevel } from 'nightingale';
 import { createStream } from 'objectstream';
-import { host, port } from './argv';
+import { hostname, port } from './argv';
 import { getTime as getConfigTime, updateConfig } from './config';
 import * as display from './display';
 import findNetworkInterface from './networkInterface';
@@ -14,7 +14,7 @@ const logger = new ConsoleLogger('app.tcp-client', LogLevel.INFO);
 
 let autorestart = true;
 let pingInterval;
-const socket = new Socket({ host, port });
+const socket = new Socket({ host: hostname, port });
 const jsonStream = createStream(socket);
 
 jsonStream.on('error', err => {
@@ -52,9 +52,9 @@ function _connect() {
         return;
     }
 
-    logger.info(`connecting to ${host}:${port}`);
+    logger.info(`connecting to ${hostname}:${port}`);
     try {
-        socket.connect({ port, host });
+        socket.connect({ port, host: hostname });
     } catch (err) {
         logger.warn('could not connect', { message: err.message });
     }
@@ -62,7 +62,7 @@ function _connect() {
 
 socket.on('connect', () => {
     const networkInterface = findNetworkInterface();
-    logger.info(`connected to ${host}:${port}`, { networkInterface });
+    logger.info(`connected to ${hostname}:${port}`, { networkInterface });
 
     pingInterval = setInterval(() => jsonStream.write({ type: 'ping' }), 30000);
 

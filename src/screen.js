@@ -1,5 +1,5 @@
 import { ConsoleLogger, LogLevel } from 'nightingale';
-import { runScript, listenScript } from './scripts';
+import { runScript } from './scripts';
 import { sendUpdate } from './tcp-client';
 import * as display from './display';
 

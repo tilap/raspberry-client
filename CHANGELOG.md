@@ -1,3 +1,8 @@
+### v5.1.0
+
+- [`2721391`](https://github.com/christophehurpeau/raspberry-client/commit/2721391dae6c88cd0cb723a8f9abbb6609a40815) fix config url (Christophe Hurpeau)
+- [`c6287a6`](https://github.com/christophehurpeau/raspberry-client/commit/c6287a6f47e14588e35158533cd5cf7d3f6c50b9) add ip in no-config url (Christophe Hurpeau)
+
 ### v5.0.0
 
 - [`0e0d400`](https://github.com/christophehurpeau/raspberry-client/commit/0e0d400bf895aedd09baf208abc3e3a68d4e070c) support livestreamer (Christophe Hurpeau)

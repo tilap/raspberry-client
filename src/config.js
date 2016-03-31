@@ -7,7 +7,7 @@ let config = (() => {
     try {
         return JSON.parse(readFileSync(configFilename));
     } catch (err) {
-        return { url: `https://${host}/no-config` };
+        return { url: `${host}/no-config` };
     }
 })();
 

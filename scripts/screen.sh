@@ -3,9 +3,11 @@
 case "$1" in
     on)
         /opt/vc/bin/tvservice -p
+	echo "on 0" | cec-client -s
     ;;
     off)
         /opt/vc/bin/tvservice -o
+	echo "standby 0" | cec-client -s
     ;;
     state)
         tvstate=`/opt/vc/bin/tvservice -s 2>&1`

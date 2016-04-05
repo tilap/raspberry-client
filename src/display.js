@@ -4,6 +4,7 @@ import { runScript, spawn } from './scripts';
 
 const logger = new ConsoleLogger('app.display', LogLevel.INFO);
 
+let currentDisplay;
 let autoRestart;
 let childProcess;
 
@@ -24,8 +25,9 @@ export function refresh() {
 }
 
 export function update() {
+    logger.info('update');
     const config = getConfig();
-    if (config.display === 'kweb3') {
+    if (config.display === 'kweb3' && currentDisplay === config.display) {
         return runScript(`./${config.display}.sh`, ['load', config.url]);
     } else {
         return restart();
@@ -53,9 +55,9 @@ function startChild() {
 
     const config = getConfig();
 
-    let script = config.display;
-    logger.info('start', { script, url: config.url });
-    childProcess = spawn(`./${script}.sh`, ['start', config.url]);
+    currentDisplay = config.display;
+    logger.info('start', { display: currentDisplay, url: config.url });
+    childProcess = spawn(`./${currentDisplay}.sh`, ['start', config.url]);
     const thisChildProcess = childProcess;
     childProcess.stdout.on('data', data => logger.debug(data.toString()));
     childProcess.stderr.on('data', data => logger.error(data.toString()));
@@ -114,8 +116,7 @@ export function stop() {
     }
     childProcess = null;
 
-    let display = getConfig().display;
-    logger.info('stop');
+    logger.info('stop', { display: currentDisplay });
     runScript(`./display.sh`, ['stop']);
     stopOpenBox();
 }

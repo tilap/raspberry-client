@@ -117,8 +117,5 @@ export function stop() {
     let display = getConfig().display;
     logger.info('stop');
     runScript(`./display.sh`, ['stop']);
-
-    if (!displays[display].openbox) {
-        stopOpenBox();
-    }
+    stopOpenBox();
 }

@@ -115,8 +115,8 @@ export function stop() {
     childProcess = null;
 
     let display = getConfig().display;
-    logger.info('stop', { display });
-    runScript(`./${display}.sh`, ['stop']);
+    logger.info('stop');
+    runScript(`./display.sh`, ['stop']);
 
     if (!displays[display].openbox) {
         stopOpenBox();

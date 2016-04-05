@@ -31,7 +31,7 @@ case "$1" in
     xdotool keyup Ctrl
   ;;
   *)
-    echo "Usage browser.sh {start <url>|refresh|load <url>}"
+    echo "Usage chromium.sh {start <url>|refresh|load <url>}"
     exit 1
   ;;
 esac

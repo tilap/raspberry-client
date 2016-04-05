@@ -1,6 +1,6 @@
 {
   "name": "raspberry-client",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "Raspberry client",
   "main": "lib/index.js",
   "scripts": {
@@ -32,6 +32,7 @@
     "minimist-argv": "^1.0.0",
     "nightingale": "^3.0.4",
     "node-cron": "^1.1.1",
-    "objectstream": "0.0.4"
+    "objectstream": "0.0.4",
+    "semver": "^5.1.0"
   }
 }

@@ -28,8 +28,9 @@ function run(data) {
         case 'display':
             switch (data._[1]) {
                 case 'start':
-                case 'openbox-started':
                     return display.start();
+                case 'openbox-started':
+                    return display.openboxStarted();
                 case 'restart':
                     return display.restart();
                 case 'refresh':

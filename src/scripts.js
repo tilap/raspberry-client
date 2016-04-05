@@ -3,9 +3,9 @@ import { ConsoleLogger, LogLevel } from 'nightingale';
 
 const logger = new ConsoleLogger('app.scripts', LogLevel.INFO);
 
-export function runScript(script, args) {
+export function runScript(script, args, { cwd } = {}) {
     logger.debug('run script', { script, args });
-    const result = spawnSync(script, args, { cwd: `${__dirname}/../scripts/` });
+    const result = spawnSync(script, args, { cwd: cwd || `${__dirname}/../scripts/` });
     if (result.error) {
         logger.error(result.error.message);
     }

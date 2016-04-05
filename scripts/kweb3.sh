@@ -35,7 +35,7 @@ function display_url {
     xdotool keydown Alt+Left
     xdotool key i
     xdotool keyup Alt+Left
-    /home/pi/xdotool_type "$1"
+    ./xdotool_type "$1"
     xdotool key Return
 }
 
@@ -67,7 +67,7 @@ case "$1" in
     xdotool keyup Alt+Left
   ;;
   *)
-    echo "Usage browser.sh {start <url>|refresh|load <url>}"
+    echo "Usage kweb3.sh {start <url>|refresh|load <url>}"
     exit 1
   ;;
 esac

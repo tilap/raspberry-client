@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+import { version as currentVersion } from '../package.json';
 import { spawnSync } from 'child_process';
 import { ConsoleLogger, LogLevel } from 'nightingale';
 import { sendUpdate } from './tcp-client';
@@ -20,6 +22,10 @@ export function selfUpdate() {
         spawnSync('git', ['pull'], { stdio: 'inherit', cwd: `${__dirname}/../` });
         spawnSync('npm', ['install', '--production'], { stdio: 'inherit', cwd: `${__dirname}/../` });
         spawnSync('npm', ['prune', '--production'], { stdio: 'inherit', cwd: `${__dirname}/../` });
+        const newVersion = JSON.parse(readFileSync(`${__dirname}/../package.json`)).version;
+        if (newVersion !== currentVersion) {
+            spawnSync('node', ['migrate.js', currentVersion, newVersion], { stdio: 'inherit', cwd: __dirname });
+        }
         exit();
         return true;
     } catch (err) {

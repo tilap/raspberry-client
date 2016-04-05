@@ -7,6 +7,12 @@ const logger = new ConsoleLogger('app.display', LogLevel.INFO);
 let autoRestart;
 let childProcess;
 
+const displays = {
+    kweb3: { openbox: true },
+    chromium: { openbox: true },
+    livestreamer: { openbox: false },
+}
+
 export function refresh() {
     if (childProcess) {
         logger.log('refresh');
@@ -26,22 +32,23 @@ export function update() {
     }
 }
 
-function runOpenBox() {
+function startOpenBox() {
+    logger.info('start openbox');
     return runScript('./openbox.sh', ['start']);
 }
 
-export function start() {
-    if (runOpenBox() !== 'started') {
-        logger.warn('openbox not yet started');
-        return;
-    }
+function stopOpenBox() {
+    logger.info('stop openbox');
+    return runScript('./openbox.sh', ['stop']);
+}
 
+function startChild() {
+    logger.info('starting child');
     if (childProcess) {
-        logger.warn('start: already started');
-        return;
+        throw new Error('child process already started');
     }
 
-    logger.info('starting...');
+
     autoRestart = true;
 
     const config = getConfig();
@@ -49,15 +56,49 @@ export function start() {
     let script = config.display;
     logger.info('start', { script, url: config.url });
     childProcess = spawn(`./${script}.sh`, ['start', config.url]);
+    const thisChildProcess = childProcess;
     childProcess.stdout.on('data', data => logger.debug(data.toString()));
     childProcess.stderr.on('data', data => logger.error(data.toString()));
     childProcess.on('close', code => {
+        const sameChildProcess = thisChildProcess === childProcess;
         childProcess = null;
         logger.error(`child process exited with code ${code}`);
-        if (autoRestart) {
+        if (autoRestart && sameChildProcess) {
             process.nextTick(() => start());
         }
     });
+}
+
+export function openboxStarted() {
+    logger.info('openbox started');
+    const config = getConfig();
+    if (!displays[config.display].openbox) {
+        stopOpenBox();
+    } else {
+        startChild();
+    }
+}
+
+export function start() {
+    if (childProcess) {
+        logger.warn('start: already started');
+        return;
+    }
+
+    const config = getConfig();
+    logger.info('starting...', { config });
+
+    if (!displays[config.display].openbox) {
+        stopOpenBox();
+        startChild();
+    } else {
+        if (startOpenBox() !== 'started') {
+            logger.warn('openbox not yet started');
+            return;
+        }
+
+        startChild();
+    }
 }
 
 export function restart() {
@@ -73,7 +114,11 @@ export function stop() {
     }
     childProcess = null;
 
-    let script = getConfig().display;
-    logger.info('stop', { script });
-    runScript(`./${script}.sh`, ['stop']);
+    let display = getConfig().display;
+    logger.info('stop', { display });
+    runScript(`./${display}.sh`, ['stop']);
+
+    if (!displays[display].openbox) {
+        stopOpenBox();
+    }
 }

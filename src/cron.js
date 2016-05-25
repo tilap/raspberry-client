@@ -1,9 +1,9 @@
 import { schedule } from 'node-cron';
-import { ConsoleLogger, LogLevel } from 'nightingale';
+import Logger from 'nightingale';
 import * as screen from './screen';
 import * as display from './display';
 
-const logger = new ConsoleLogger('cron', LogLevel.INFO);
+const logger = new Logger('cron');
 
 schedule('30 8 * * 1-5', () => {
     logger.info('screen on');

@@ -17,6 +17,7 @@ Create supervisor config file
 
 ```
 [program:node-raspberry-client]
+environment=NODE_ENV="production"
 command=node --es_staging ..../raspberry-client --port=3002 --host=myhostname
 autostart=true
 autorestart=true

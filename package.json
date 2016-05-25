@@ -2,37 +2,53 @@
   "name": "raspberry-client",
   "version": "5.2.0",
   "description": "Raspberry client",
-  "main": "lib/index.js",
-  "scripts": {
-    "lint": "make lint",
-    "build": "make build",
-    "postpublish": "make post-publish",
-    "preversion": "make pre-version",
-    "test": "make test",
-    "version": "make version",
-    "watch": "make watch"
-  },
-  "repository": "christophehurpeau/raspberry-client",
   "keywords": [
     "raspberry"
   ],
   "author": "Christophe Hurpeau <christophe@hurpeau.com> (http://christophe.hurpeau.com/)",
   "license": "ISC",
+  "repository": "christophehurpeau/raspberry-client",
+  "homepage": "https://github.com/christophehurpeau/raspberry-client#readme",
   "bugs": {
     "url": "https://github.com/christophehurpeau/raspberry-client/issues"
   },
-  "homepage": "https://github.com/christophehurpeau/raspberry-client#readme",
-  "devDependencies": {
-    "eslint": "^1.10.3",
-    "springbokjs-library": "^15.0.0"
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "pob-build",
+    "build:dev": "pob-build",
+    "clean": "rm -Rf docs dist test/node6 coverage",
+    "lint": "eslint --fix -c .eslintrc.yml src/",
+    "postpublish": "make post-publish",
+    "prepublish": "ln -s ../../git-hooks/pre-commit .git/hooks/pre-commit || echo",
+    "preversion": "npm run lint && npm run build && npm run build && pob-repository-check-clean",
+    "release": "pob-repository-check-clean && pob-release",
+    "test": "make test",
+    "version": "pob-version",
+    "watch": "pob-watch",
+    "watch:dev": "pob-watch"
   },
   "dependencies": {
     "deep-equal": "^1.0.1",
     "json-tcp-socket": "^1.0.3",
     "minimist-argv": "^1.0.0",
-    "nightingale": "^3.0.4",
+    "nightingale": "^4.2.0",
+    "nightingale-console": "^1.1.0",
     "node-cron": "^1.1.1",
     "objectstream": "0.0.4",
     "semver": "^5.1.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.0.4",
+    "babel-plugin-typecheck": "^3.9.0",
+    "babel-preset-es2015-node5": "^1.2.0",
+    "babel-preset-es2015-node6": "^0.2.0",
+    "babel-preset-flow": "^1.0.0",
+    "babel-preset-stage-1": "^6.5.0",
+    "eslint": "^2.10.2",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-config-pob": "^6.0.1",
+    "eslint-plugin-import": "^1.8.0",
+    "pob-babel": "^0.3.0",
+    "pob-release": "^2.0.2"
   }
 }

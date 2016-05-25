@@ -1,16 +1,15 @@
 import { Socket } from 'net';
-import { ConsoleLogger, LogLevel } from 'nightingale';
+import Logger from 'nightingale';
 import { createStream } from 'objectstream';
 import { hostname, port } from './argv';
 import { getTime as getConfigTime, updateConfig } from './config';
 import * as display from './display';
 import findNetworkInterface from './networkInterface';
-import { currentScreenState } from './screen';
 import * as screen from './screen';
 import { selfUpdate } from './update';
 import { version } from '../package.json';
 
-const logger = new ConsoleLogger('app.tcp-client', LogLevel.INFO);
+const logger = new Logger('app.tcp-client');
 
 let autorestart = true;
 let pingInterval;
@@ -28,18 +27,18 @@ socket.on('error', err => {
         clearInterval(pingInterval);
     }
 
-    setTimeout(() => _connect(), 1000);
+    setTimeout(() => internalConnect(), 1000);
 });
 
 socket.on('end', () => {
-    logger[autorestart ? 'warn' : 'info'](`Closed`);
+    logger[autorestart ? 'warn' : 'info']('Closed');
 
     if (pingInterval) {
         clearInterval(pingInterval);
     }
 
     if (autorestart) {
-        setTimeout(() => _connect(), 1000);
+        setTimeout(() => internalConnect(), 1000);
     }
 });
 
@@ -47,7 +46,7 @@ socket.setTimeout(120000, () => {
     socket.destroy(new Error('timeout'));
 });
 
-function _connect() {
+function internalConnect() {
     if (socket.writable) {
         return;
     }
@@ -70,7 +69,7 @@ socket.on('connect', () => {
         type: 'hello',
         configTime: getConfigTime(),
         version,
-        screenState: currentScreenState,
+        screenState: screen.currentScreenState,
         ...networkInterface,
     });
 });
@@ -118,9 +117,9 @@ jsonStream.on('data', data => {
     }
 });
 
-_connect();
+internalConnect();
 
-export function sendUpdate(data) {
+export function sendUpdate(data: Object) {
     if (jsonStream.writable || socket.writable) {
         jsonStream.write({
             type: 'update',

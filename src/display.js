@@ -1,8 +1,8 @@
-import { ConsoleLogger, LogLevel } from 'nightingale';
+import Logger from 'nightingale';
 import { get as getConfig } from './config';
 import { runScript, spawn } from './scripts';
 
-const logger = new ConsoleLogger('app.display', LogLevel.INFO);
+const logger = new Logger('app.display');
 
 let currentDisplay;
 let autoRestart;
@@ -12,7 +12,7 @@ const displays = {
     kweb3: { openbox: true },
     chromium: { openbox: true },
     livestreamer: { openbox: false },
-}
+};
 
 export function refresh() {
     if (childProcess) {
@@ -117,6 +117,6 @@ export function stop() {
     childProcess = null;
 
     logger.info('stop', { display: currentDisplay });
-    runScript(`./display.sh`, ['stop']);
+    runScript('./display.sh', ['stop']);
     stopOpenBox();
 }

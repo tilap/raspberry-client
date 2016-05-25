@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { Socket } from 'net';
-import { ConsoleLogger, LogLevel } from 'nightingale';
+import Logger from 'nightingale';
 const argv = require('minimist-argv');
 import { createStream } from 'objectstream';
 
@@ -19,7 +19,7 @@ if (!argv._[0]) {
     console.log('      openbox-started: notify that openbox is started');
 }
 
-const logger = new ConsoleLogger('cli', LogLevel.INFO);
+const logger = new Logger('cli');
 
 const socket = new Socket();
 const jsonStream = createStream(socket);
@@ -33,13 +33,13 @@ socket.on('error', err => {
 });
 
 socket.on('end', () => {
-    logger.debug(`socket ended`);
+    logger.debug('socket ended');
     jsonStream.end();
 });
 
 
 socket.on('connect', () => {
-    logger.debug(`connected`);
+    logger.debug('connected');
 
     jsonStream.write(argv);
 });

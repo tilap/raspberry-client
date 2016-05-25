@@ -1,8 +1,8 @@
 import { gt, lt } from 'semver';
-import { runScript } from 'scripts';
+// import { runScript } from 'scripts';
 import { readdir } from 'fs';
 
-export default function migrate(previousVersion, newVersion) {
+export default function migrate(previousVersion: string, newVersion: string) {
     return new Promise((resolve, reject) => {
         readdir(`${__dirname}/../migrate/`, (err, files) => {
             if (err) {

@@ -1,14 +1,14 @@
 import { createServer } from 'net';
 import { unlinkSync } from 'fs';
-import { ConsoleLogger, LogLevel } from 'nightingale';
+import Logger from 'nightingale';
 import { createStream } from 'objectstream';
 import * as screen from './screen';
 import * as display from './display';
 import { selfUpdate } from './update';
 
-const logger = new ConsoleLogger('app.tcp-server', LogLevel.INFO);
+const logger = new Logger('app.tcp-server');
 
-function run(data) {
+function run(data: Object) {
     if (!data || !data._ || !data._[0]) {
         throw new Error('Missing action');
     }

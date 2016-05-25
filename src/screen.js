@@ -1,9 +1,9 @@
-import { ConsoleLogger, LogLevel } from 'nightingale';
+import Logger from 'nightingale';
 import { runScript } from './scripts';
 import { sendUpdate } from './tcp-client';
 import * as display from './display';
 
-const logger = new ConsoleLogger('app.screen', LogLevel.INFO);
+const logger = new Logger('app.screen');
 
 export let currentScreenState = state();
 

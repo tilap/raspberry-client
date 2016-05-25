@@ -1,0 +1,5 @@
+---
+  extends: pob/babel
+
+  rules:
+    import/no-mutable-exports: 'off'

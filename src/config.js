@@ -33,7 +33,7 @@ function save() {
     writeFileSync(configFilename, JSON.stringify(config, null, 4));
 }
 
-export function updateConfig(newConfig) {
+export function updateConfig(newConfig: Object) {
     if (deepEqual(config, newConfig)) {
         return false;
     }

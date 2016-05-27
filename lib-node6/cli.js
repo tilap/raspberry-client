@@ -6,16 +6,28 @@ var _nightingale = require('nightingale');
 
 var _nightingale2 = _interopRequireDefault(_nightingale);
 
+var _updateNotifier = require('update-notifier');
+
+var _updateNotifier2 = _interopRequireDefault(_updateNotifier);
+
+var _minimistArgv = require('minimist-argv');
+
+var _minimistArgv2 = _interopRequireDefault(_minimistArgv);
+
+var _package = require('../package.json');
+
+var _package2 = _interopRequireDefault(_package);
+
 var _objectstream = require('objectstream');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable no-console */
 
-const argv = require('minimist-argv');
 
+(0, _updateNotifier2.default)({ pkg: _package2.default }).notify();
 
-if (!argv._[0]) {
+if (!_minimistArgv2.default._[0]) {
     console.log('Usage: cli <action> [args]');
     console.log('actions:');
     console.log('  - self-update');
@@ -50,7 +62,7 @@ socket.on('end', () => {
 socket.on('connect', () => {
     logger.debug('connected');
 
-    jsonStream.write(argv);
+    jsonStream.write(_minimistArgv2.default);
 });
 
 jsonStream.on('data', data => {

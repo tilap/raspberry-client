@@ -13,7 +13,7 @@ var _nightingale2 = _interopRequireDefault(_nightingale);
 
 var _scripts = require('./scripts');
 
-var _tcpClient = require('./tcp-client');
+var _client = require('./client');
 
 var _display = require('./display');
 
@@ -38,7 +38,7 @@ function on() {
     logger.info('turning screen on');
     (0, _scripts.runScript)('./screen.sh', ['on']);
     exports.currentScreenState = currentScreenState = 'on';
-    (0, _tcpClient.sendUpdate)({ screenState: currentScreenState });
+    (0, _client.sendUpdate)({ screenState: currentScreenState });
     display.start();
 }
 
@@ -46,7 +46,7 @@ function off() {
     logger.info('turning screen off');
     (0, _scripts.runScript)('./screen.sh', ['off']);
     exports.currentScreenState = currentScreenState = 'off';
-    (0, _tcpClient.sendUpdate)({ screenState: currentScreenState });
+    (0, _client.sendUpdate)({ screenState: currentScreenState });
     display.stop();
 }
 

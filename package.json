@@ -13,6 +13,11 @@
     "url": "https://github.com/christophehurpeau/raspberry-client/issues"
   },
   "main": "lib/index.js",
+  "bin": {
+    "raspberry-client": "./index",
+    "rpi-client": "./index",
+    "rpi-cli": "./cli"
+  },
   "scripts": {
     "build": "pob-build",
     "build:dev": "pob-build",
@@ -35,7 +40,9 @@
     "nightingale-console": "^1.1.0",
     "node-cron": "^1.1.1",
     "objectstream": "0.0.4",
-    "semver": "^5.1.0"
+    "semver": "^5.1.0",
+    "socket.io-client": "^1.4.6",
+    "update-notifier": "^0.7.0"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.4",

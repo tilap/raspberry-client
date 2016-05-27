@@ -29,7 +29,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = new _nightingale2.default('app.tcp-server');
+const logger = new _nightingale2.default('app.cli-server');
 
 function run(data) {
     if (!data || !data._ || !data._[0]) {
@@ -77,10 +77,10 @@ const server = (0, _net.createServer)(socket => {
     });
 
     jsonStream.on('data', data => {
-        logger.info('data', { data });
+        logger.info('data', { data: data });
         try {
             const result = run(data);
-            jsonStream.write({ type: 'done', result });
+            jsonStream.write({ type: 'done', result: result });
         } catch (err) {
             jsonStream.write({ error: err.message });
         }
@@ -104,4 +104,4 @@ function close() {
         });
     });
 }
-//# sourceMappingURL=tcp-server.js.map
+//# sourceMappingURL=cli-server.js.map

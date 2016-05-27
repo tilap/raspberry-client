@@ -7,9 +7,9 @@ exports.exit = exit;
 
 var _display = require('./display');
 
-var _tcpClient = require('./tcp-client');
+var _client = require('./client');
 
-var _tcpServer = require('./tcp-server');
+var _cliServer = require('./cli-server');
 
 require('./cron');
 
@@ -24,7 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _nightingale.addGlobalHandler)(new _nightingaleConsole2.default());
 
 function exit() {
-    Promise.all([(0, _display.stop)(), (0, _tcpClient.close)(), (0, _tcpServer.close)()]).then(() => {
+    Promise.all([(0, _display.stop)(), (0, _client.close)(), (0, _cliServer.close)()]).then(() => {
         process.exit();
     });
 }

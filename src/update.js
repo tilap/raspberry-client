@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { version as currentVersion } from '../package.json';
 import { spawnSync } from 'child_process';
 import Logger from 'nightingale';
-import { sendUpdate } from './tcp-client';
+import { sendUpdate } from './client';
 import { exit } from './index';
 
 const logger = new Logger('app.update');

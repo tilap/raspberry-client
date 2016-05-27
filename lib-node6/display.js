@@ -89,8 +89,9 @@ function startChild() {
 }
 
 function openboxStarted() {
-    logger.info('openbox started');
     const config = (0, _config.get)();
+    logger.info('openbox started', { display: config.display });
+
     if (!displays[config.display].openbox) {
         stopOpenBox();
     } else {

@@ -29,7 +29,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = new _nightingale2.default('app.tcp-server');
+const logger = new _nightingale2.default('app.cli-server');
 
 function run(data) {
     if (!(data instanceof Object)) {
@@ -167,4 +167,4 @@ function _inspect(input, depth) {
         }
     }
 }
-//# sourceMappingURL=tcp-server.js.map
+//# sourceMappingURL=cli-server.js.map

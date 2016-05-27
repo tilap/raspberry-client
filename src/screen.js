@@ -1,6 +1,6 @@
 import Logger from 'nightingale';
 import { runScript } from './scripts';
-import { sendUpdate } from './tcp-client';
+import { sendUpdate } from './client';
 import * as display from './display';
 
 const logger = new Logger('app.screen');

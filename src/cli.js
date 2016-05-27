@@ -1,9 +1,12 @@
 /* eslint-disable no-console */
-
 import { Socket } from 'net';
 import Logger from 'nightingale';
-const argv = require('minimist-argv');
+import updateNotifier from 'update-notifier';
+import argv from 'minimist-argv';
+import pkg from '../package.json';
 import { createStream } from 'objectstream';
+
+updateNotifier({ pkg }).notify();
 
 if (!argv._[0]) {
     console.log('Usage: cli <action> [args]');

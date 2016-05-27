@@ -6,7 +6,7 @@ import * as screen from './screen';
 import * as display from './display';
 import { selfUpdate } from './update';
 
-const logger = new Logger('app.tcp-server');
+const logger = new Logger('app.cli-server');
 
 function run(data: Object) {
     if (!data || !data._ || !data._[0]) {

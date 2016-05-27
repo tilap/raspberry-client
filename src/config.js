@@ -3,25 +3,33 @@ import deepEqual from 'deep-equal';
 import { host } from './argv';
 import findNetworkInterface from './networkInterface';
 
+function defaultConfig() {
+    const networkInterface = (() => {
+        try {
+            return findNetworkInterface();
+        } catch (err) {
+            return null;
+        }
+    })();
+
+    return {
+        display: 'kweb3',
+        url: `${host}/no-config?ip=${networkInterface && networkInterface.ip}`,
+    };
+}
+
 const configFilename = `${__dirname}/../data/config.json`;
 let config = (() => {
     try {
         return JSON.parse(readFileSync(configFilename));
     } catch (err) {
-        const networkInterface = (() => {
-            try {
-                return findNetworkInterface();
-            } catch (err) {
-                return null;
-            }
-        })();
-        return {
-            display: 'kweb3',
-            url: `${host}/no-config?ip=${networkInterface && networkInterface.ip}`,
-        };
+        return defaultConfig();
     }
 })();
 
+if (!config.display) {
+    config = defaultConfig();
+}
 
 if (['livestreamer', 'kweb3', 'chromium'].indexOf(config.display) === -1) {
     config.display = 'kweb3';

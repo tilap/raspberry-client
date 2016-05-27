@@ -9,13 +9,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 exports.sendUpdate = sendUpdate;
 exports.close = close;
 
-var _net = require('net');
-
 var _nightingale = require('nightingale');
 
 var _nightingale2 = _interopRequireDefault(_nightingale);
 
-var _objectstream = require('objectstream');
+var _socket = require('socket.io-client');
+
+var _socket2 = _interopRequireDefault(_socket);
 
 var _argv = require('./argv');
 
@@ -41,145 +41,118 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = new _nightingale2.default('app.tcp-client');
+const logger = new _nightingale2.default('app.client');
 
-let autorestart = true;
-let pingInterval;
-const socket = new _net.Socket({ host: _argv.hostname, port: _argv.port });
-const jsonStream = (0, _objectstream.createStream)(socket);
-
-jsonStream.on('error', err => {
-    logger.error(err);
+const socket = (0, _socket2.default)(`${ _argv.host }:${ _argv.port }/raspberry-client`, {
+    reconnectionDelay: 500,
+    reconnectionDelayMax: 1000,
+    timeout: 4000,
+    transports: ['websocket']
 });
 
-socket.on('error', err => {
-    logger.error(err);
-
-    if (pingInterval) {
-        clearInterval(pingInterval);
-    }
-
-    setTimeout(() => {
-        return internalConnect();
-    }, 1000);
+process.nextTick(() => {
+    logger.debug('Connecting', { host: _argv.host, port: _argv.port });
+    socket.connect();
 });
 
-socket.on('end', () => {
-    logger[autorestart ? 'warn' : 'info']('Closed');
-
-    if (pingInterval) {
-        clearInterval(pingInterval);
+function emit(eventName) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
     }
 
-    if (autorestart) {
-        setTimeout(() => {
-            return internalConnect();
-        }, 1000);
-    }
-});
-
-socket.setTimeout(120000, () => {
-    socket.destroy(new Error('timeout'));
-});
-
-function internalConnect() {
-    if (socket.writable) {
-        return;
+    if (!(typeof eventName === 'string')) {
+        throw new TypeError('Value of argument "eventName" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(eventName));
     }
 
-    logger.info(`connecting to ${ _argv.hostname }:${ _argv.port }`);
-    try {
-        socket.connect({ port: _argv.port, host: _argv.hostname });
-    } catch (err) {
-        logger.warn('could not connect', { message: err.message });
-    }
+    logger.debug('emit', { eventName, args });
+    return socket.emit(eventName, ...args);
 }
 
+socket.on('connect_error', err => {
+    return logger.error('connect error', { host: _argv.host, port: _argv.port, errMessage: err.message });
+});
+socket.on('reconnect_error', err => {
+    return logger.debug('reconnect error', { host: _argv.host, port: _argv.port, err });
+});
+
+socket.on('disconnect', () => {
+    return logger.warn('disconnected');
+});
+
+socket.on('reconnect', () => {
+    return logger.success('reconnected');
+});
+
 socket.on('connect', () => {
+    logger.success('connected');
+
     const networkInterface = (0, _networkInterface2.default)();
-    logger.info(`connected to ${ _argv.hostname }:${ _argv.port }`, { networkInterface });
-
-    pingInterval = setInterval(() => {
-        return jsonStream.write({ type: 'ping' });
-    }, 30000);
-
-    jsonStream.write(_extends({
-        type: 'hello',
+    emit('hello', _extends({
         configTime: (0, _config.getTime)(),
         version: _package.version,
         screenState: screen.currentScreenState
     }, networkInterface));
 });
 
-jsonStream.on('data', data => {
-    if (data.type === 'ping') {
-        logger.debug('ping');
-        return;
+socket.on('updateConfig', config => {
+    if ((0, _config.updateConfig)(config)) {
+        display.update();
+    }
+});
+
+socket.on('changeConfig', config => {
+    if ((0, _config.updateConfig)(config)) {
+        display.update();
+    }
+});
+
+socket.on('selfUpdate', () => {
+    return (0, _update.selfUpdate)();
+});
+
+socket.on('action', action => {
+    if (!(typeof action === 'string')) {
+        throw new TypeError('Value of argument "action" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(action));
     }
 
-    logger.info('data', data);
-    switch (data.type) {
-        case 'update-config':
-        case 'change-config':
-            if ((0, _config.updateConfig)(data.config)) {
-                display.update();
-            }
-            return;
-
+    switch (action) {
         case 'self-upgrade':
         case 'self-update':
         case 'selfUpdate':
             return (0, _update.selfUpdate)();
 
-        case 'action':
-            switch (data.action) {
-                case 'self-upgrade':
-                case 'self-update':
-                case 'selfUpdate':
-                    return (0, _update.selfUpdate)();
+        case 'screen-off':
+            return screen.off();
+        case 'screen-on':
+            return screen.on();
 
-                case 'screen-off':
-                    return screen.off();
-                case 'screen-on':
-                    return screen.on();
-
-                case 'refresh':
-                    return display.refresh();
-            }
-            logger.warn(`unknown action: ${ data.action }`);
-            return;
-
-        default:
-            logger.warn(`unknown type: ${ data.type }`);
+        case 'refresh':
+            return display.refresh();
     }
-});
 
-internalConnect();
+    logger.warn(`unknown action: ${ action }`);
+});
 
 function sendUpdate(data) {
     if (!(data instanceof Object)) {
         throw new TypeError('Value of argument "data" violates contract.\n\nExpected:\nObject\n\nGot:\n' + _inspect(data));
     }
 
-    if (jsonStream.writable || socket.writable) {
-        jsonStream.write(_extends({
-            type: 'update'
-        }, data));
-    }
+    socket.emit('update', data);
 }
 
 function close() {
-    autorestart = false;
-    if (socket.writable) {
-        return new Promise(resolve => {
-            logger.info('Closing...');
-            socket.end(() => {
-                socket.once('end', () => {
-                    resolve();
-                });
-            });
-        });
+    if (!socket.connected) {
+        return;
     }
+
+    return new Promise(resolve => {
+        logger.info('Closing...');
+        socket.close();
+        socket.once('disconnect', () => {
+            resolve();
+        });
+    });
 }
 
 function _inspect(input, depth) {
@@ -240,4 +213,4 @@ function _inspect(input, depth) {
         }
     }
 }
-//# sourceMappingURL=tcp-client.js.map
+//# sourceMappingURL=client.js.map

@@ -1,3 +1,7 @@
+### v6.0.0-3
+
+- [`63571b7`](https://github.com/christophehurpeau/raspberry-client/commit/63571b746d4ffb9caebf06d594ae02f542a089b7) socket cli (Christophe Hurpeau)
+
 ### v6.0.0-2
 
 - [`9013384`](https://github.com/christophehurpeau/raspberry-client/commit/90133842259c9c97bd9b4426b2ee4c060c2393ef) /usr/bin/env node (Christophe Hurpeau)

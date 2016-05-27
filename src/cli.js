@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { Socket } from 'net';
+import { tmpDir } from 'os';
 import Logger from 'nightingale';
 import updateNotifier from 'update-notifier';
 import argv from 'minimist-argv';
@@ -60,4 +61,5 @@ jsonStream.on('data', data => {
 });
 
 
-socket.connect(`${__dirname}/../socket`);
+const socketPath = `${tmpDir()}/raspberry-client`;
+socket.connect(socketPath);

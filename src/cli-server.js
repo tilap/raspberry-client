@@ -1,5 +1,6 @@
 import { createServer } from 'net';
 import { unlinkSync } from 'fs';
+import { tmpDir } from 'os';
 import Logger from 'nightingale';
 import { createStream } from 'objectstream';
 import * as screen from './screen';
@@ -64,11 +65,13 @@ const server = createServer(socket => {
     });
 });
 
+const socketPath = `${tmpDir()}/raspberry-client`;
+
 try {
-    unlinkSync(`${__dirname}/../socket`);
+    unlinkSync(socketPath);
 } catch (e) {}
 
-server.listen(`${__dirname}/../socket`, () => {
+server.listen(socketPath, () => {
     logger.info('Listening');
 });
 

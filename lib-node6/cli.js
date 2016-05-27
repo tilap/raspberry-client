@@ -2,6 +2,8 @@
 
 var _net = require('net');
 
+var _os = require('os');
+
 var _nightingale = require('nightingale');
 
 var _nightingale2 = _interopRequireDefault(_nightingale);
@@ -22,10 +24,8 @@ var _objectstream = require('objectstream');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable no-console */
+(0, _updateNotifier2.default)({ pkg: _package2.default }).notify(); /* eslint-disable no-console */
 
-
-(0, _updateNotifier2.default)({ pkg: _package2.default }).notify();
 
 if (!_minimistArgv2.default._[0]) {
     console.log('Usage: cli <action> [args]');
@@ -77,5 +77,6 @@ jsonStream.on('data', data => {
     }
 });
 
-socket.connect(`${ __dirname }/../socket`);
+const socketPath = `${ (0, _os.tmpDir)() }/raspberry-client`;
+socket.connect(socketPath);
 //# sourceMappingURL=cli.js.map

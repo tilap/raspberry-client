@@ -9,6 +9,8 @@ var _net = require('net');
 
 var _fs = require('fs');
 
+var _os = require('os');
+
 var _nightingale = require('nightingale');
 
 var _nightingale2 = _interopRequireDefault(_nightingale);
@@ -87,11 +89,13 @@ const server = (0, _net.createServer)(socket => {
     });
 });
 
+const socketPath = `${ (0, _os.tmpDir)() }/raspberry-client`;
+
 try {
-    (0, _fs.unlinkSync)(`${ __dirname }/../socket`);
+    (0, _fs.unlinkSync)(socketPath);
 } catch (e) {}
 
-server.listen(`${ __dirname }/../socket`, () => {
+server.listen(socketPath, () => {
     logger.info('Listening');
 });
 

@@ -1,3 +1,7 @@
+### v6.0.0-1
+
+- [`145c017`](https://github.com/christophehurpeau/raspberry-client/commit/145c017866ee56fed24944b67e1f18e087beed25) fix bin in package.json (Christophe Hurpeau)
+
 ### v6.0.0-0
 
 - [`e9b411a`](https://github.com/christophehurpeau/raspberry-client/commit/e9b411ac2a6f7cacb0ab4b9f5737416ce336dfd0) start/stop openbox when needed, add openboxStarted, migration script (Christophe Hurpeau)

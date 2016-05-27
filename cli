@@ -1,2 +1,7 @@
 #!/usr/bin/env node
-require('./lib/cli');
+var production = process.env.NODE_ENV === 'production';
+if (process.version.startsWith && process.version.startsWith('v6.'))
+    return module.exports = require('./lib-node6' + (production ? '' : '-dev') + '/cli');
+if (process.version.startsWith && process.version.startsWith('v5.'))
+    return module.exports = require('./lib-node5' + (production ? '' : '-dev') + '/cli');
+throw new Error('Platform not supported: ' + process.version);

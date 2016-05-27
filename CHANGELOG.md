@@ -1,3 +1,15 @@
+### v6.0.0-0
+
+- [`e9b411a`](https://github.com/christophehurpeau/raspberry-client/commit/e9b411ac2a6f7cacb0ab4b9f5737416ce336dfd0) start/stop openbox when needed, add openboxStarted, migration script (Christophe Hurpeau)
+- [`f21a3d8`](https://github.com/christophehurpeau/raspberry-client/commit/f21a3d8b3f90138ff064e8a05cc2c67ff7f0013a) test (Christophe Hurpeau)
+- [`8c3bb7e`](https://github.com/christophehurpeau/raspberry-client/commit/8c3bb7e8eb6edd6ca24803830beaf617919f7f3a) chmod +x scripts/xdotool_type (Christophe Hurpeau)
+- [`b4710ad`](https://github.com/christophehurpeau/raspberry-client/commit/b4710ad26035470c13172cc9e4febbde4dae83f9) stop display (Christophe Hurpeau)
+- [`b86e8c0`](https://github.com/christophehurpeau/raspberry-client/commit/b86e8c0fb0afe716b34af3a5ac7d54f9922240a8) stop also stops openbox (Christophe Hurpeau)
+- [`39d8dc4`](https://github.com/christophehurpeau/raspberry-client/commit/39d8dc42c1cdeaf54447bd05f0b350a5c1ba2963) display keep currentDisplay (Christophe Hurpeau)
+- [`ada19df`](https://github.com/christophehurpeau/raspberry-client/commit/ada19df6b870400c09c0a2e78599f094d9e7bee5) use pob library generator, flow, upgrade dependencies (Christophe Hurpeau)
+- [`e2d267c`](https://github.com/christophehurpeau/raspberry-client/commit/e2d267cbc7b1728f9bffa103e74549c20d762e96) Update cli (Christophe Hurpeau)
+- [`80a3c47`](https://github.com/christophehurpeau/raspberry-client/commit/80a3c476091008e1111e8a48c7c0e70b9c95ce0f) use socketio, install with npm -g (Christophe Hurpeau)
+
 ### v5.1.0
 
 - [`2721391`](https://github.com/christophehurpeau/raspberry-client/commit/2721391dae6c88cd0cb723a8f9abbb6609a40815) fix config url (Christophe Hurpeau)

@@ -1,3 +1,7 @@
+### v6.0.0-2
+
+- [`9013384`](https://github.com/christophehurpeau/raspberry-client/commit/90133842259c9c97bd9b4426b2ee4c060c2393ef) /usr/bin/env node (Christophe Hurpeau)
+
 ### v6.0.0-1
 
 - [`145c017`](https://github.com/christophehurpeau/raspberry-client/commit/145c017866ee56fed24944b67e1f18e087beed25) fix bin in package.json (Christophe Hurpeau)

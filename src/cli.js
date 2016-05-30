@@ -9,7 +9,12 @@ import { createStream } from 'objectstream';
 
 updateNotifier({ pkg }).notify();
 
-if (!argv._[0]) {
+if (argv.version) {
+    console.log(pkg.version);
+    process.exit(0);
+}
+
+if (!argv._[0] || argv.help) {
     console.log('Usage: cli <action> [args]');
     console.log('actions:');
     console.log('  - self-update');
@@ -21,6 +26,7 @@ if (!argv._[0]) {
     console.log('      restart: restart the current display (kweb3 / twitch / ...)');
     console.log('      refresh: refresh the browser (only for kweb3/chromimum)');
     console.log('      openbox-started: notify that openbox is started');
+    process.exit(0);
 }
 
 const logger = new Logger('cli');

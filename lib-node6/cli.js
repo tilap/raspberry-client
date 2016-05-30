@@ -27,7 +27,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _updateNotifier2.default)({ pkg: _package2.default }).notify(); /* eslint-disable no-console */
 
 
-if (!_minimistArgv2.default._[0]) {
+if (_minimistArgv2.default.version) {
+    console.log(_package2.default.version);
+    process.exit(0);
+}
+
+if (!_minimistArgv2.default._[0] || _minimistArgv2.default.help) {
     console.log('Usage: cli <action> [args]');
     console.log('actions:');
     console.log('  - self-update');
@@ -39,6 +44,7 @@ if (!_minimistArgv2.default._[0]) {
     console.log('      restart: restart the current display (kweb3 / twitch / ...)');
     console.log('      refresh: refresh the browser (only for kweb3/chromimum)');
     console.log('      openbox-started: notify that openbox is started');
+    process.exit(0);
 }
 
 const logger = new _nightingale2.default('cli');

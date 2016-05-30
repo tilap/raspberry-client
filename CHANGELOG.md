@@ -1,3 +1,7 @@
+### v6.0.0-8
+
+- [`b7c1ab1`](https://github.com/christophehurpeau/raspberry-client/commit/b7c1ab1d9172613a4dd994a7690c1ed4b2a42eb0) fix update script (Christophe Hurpeau)
+
 ### v6.0.0-7
 
 - [`b9ffa1f`](https://github.com/christophehurpeau/raspberry-client/commit/b9ffa1f091ae6dfd17573d382644c54087cbbd14) dont start child if openbox not started (Christophe Hurpeau)

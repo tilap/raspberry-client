@@ -1,6 +1,7 @@
-import { readFileSync, writeFileSync } from 'fs';
+import Configstore from 'configstore';
 import deepEqual from 'deep-equal';
 import { host } from './argv';
+import { name } from '../package.json';
 import findNetworkInterface from './networkInterface';
 
 function defaultConfig() {
@@ -18,14 +19,8 @@ function defaultConfig() {
     };
 }
 
-const configFilename = `${__dirname}/../data/config.json`;
-let config = (() => {
-    try {
-        return JSON.parse(readFileSync(configFilename));
-    } catch (err) {
-        return defaultConfig();
-    }
-})();
+const configStore = new Configstore(name, defaultConfig());
+let config = configStore.all;
 
 if (!config.display) {
     config = defaultConfig();
@@ -38,7 +33,7 @@ if (['livestreamer', 'kweb3', 'chromium'].indexOf(config.display) === -1) {
 
 
 function save() {
-    writeFileSync(configFilename, JSON.stringify(config, null, 4));
+    configStore.all = config;
 }
 
 export function updateConfig(newConfig: Object) {

@@ -7,13 +7,17 @@ exports.updateConfig = updateConfig;
 exports.getTime = getTime;
 exports.get = get;
 
-var _fs = require('fs');
+var _configstore = require('configstore');
+
+var _configstore2 = _interopRequireDefault(_configstore);
 
 var _deepEqual = require('deep-equal');
 
 var _deepEqual2 = _interopRequireDefault(_deepEqual);
 
 var _argv = require('./argv');
+
+var _package = require('../package.json');
 
 var _networkInterface = require('./networkInterface');
 
@@ -36,14 +40,8 @@ function defaultConfig() {
     };
 }
 
-const configFilename = `${ __dirname }/../data/config.json`;
-let config = (() => {
-    try {
-        return JSON.parse((0, _fs.readFileSync)(configFilename));
-    } catch (err) {
-        return defaultConfig();
-    }
-})();
+const configStore = new _configstore2.default(_package.name, defaultConfig());
+let config = configStore.all;
 
 if (!config.display) {
     config = defaultConfig();
@@ -55,7 +53,7 @@ if (['livestreamer', 'kweb3', 'chromium'].indexOf(config.display) === -1) {
 }
 
 function save() {
-    (0, _fs.writeFileSync)(configFilename, JSON.stringify(config, null, 4));
+    configStore.all = config;
 }
 
 function updateConfig(newConfig) {

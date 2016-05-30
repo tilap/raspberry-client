@@ -31,6 +31,7 @@
     "watch:dev": "pob-watch"
   },
   "dependencies": {
+    "configstore": "^2.0.0",
     "deep-equal": "^1.0.1",
     "json-tcp-socket": "^1.0.3",
     "minimist-argv": "^1.0.0",

@@ -26,6 +26,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const logger = new _nightingale2.default('app.screen');
 
 let currentScreenState = exports.currentScreenState = state();
+logger.info('init', { currentScreenState: currentScreenState });
 
 /**
  * @returns {string} on|off|unavailable

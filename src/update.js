@@ -19,9 +19,7 @@ export function selfUpdate() {
             return false;
         }
 
-        spawnSync('git', ['pull'], { stdio: 'inherit', cwd: `${__dirname}/../` });
-        spawnSync('npm', ['install', '--production'], { stdio: 'inherit', cwd: `${__dirname}/../` });
-        spawnSync('npm', ['prune', '--production'], { stdio: 'inherit', cwd: `${__dirname}/../` });
+        spawnSync('sudo', ['npm', 'install', '-g', 'raspberry-client'], { stdio: 'inherit', cwd: `${__dirname}/../` });
         const newVersion = JSON.parse(readFileSync(`${__dirname}/../package.json`)).version;
         if (newVersion !== currentVersion) {
             spawnSync(

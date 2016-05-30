@@ -39,9 +39,7 @@ function selfUpdate() {
             return false;
         }
 
-        (0, _child_process.spawnSync)('git', ['pull'], { stdio: 'inherit', cwd: `${ __dirname }/../` });
-        (0, _child_process.spawnSync)('npm', ['install', '--production'], { stdio: 'inherit', cwd: `${ __dirname }/../` });
-        (0, _child_process.spawnSync)('npm', ['prune', '--production'], { stdio: 'inherit', cwd: `${ __dirname }/../` });
+        (0, _child_process.spawnSync)('sudo', ['npm', 'install', '-g', 'raspberry-client'], { stdio: 'inherit', cwd: `${ __dirname }/../` });
         const newVersion = JSON.parse((0, _fs.readFileSync)(`${ __dirname }/../package.json`)).version;
         if (newVersion !== _package.version) {
             (0, _child_process.spawnSync)('node', ['migrate.js', _package.version, newVersion], { stdio: 'inherit', cwd: __dirname });

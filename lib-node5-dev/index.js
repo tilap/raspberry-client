@@ -13,6 +13,8 @@ var _cliServer = require('./cli-server');
 
 require('./cron');
 
+require('./screen');
+
 var _nightingale = require('nightingale');
 
 var _nightingaleConsole = require('nightingale-console');

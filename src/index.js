@@ -2,6 +2,7 @@ import { stop as stopDisplay } from './display';
 import { close as clientClose } from './client';
 import { close as serverClose } from './cli-server';
 import './cron';
+import './screen';
 import { addGlobalHandler } from 'nightingale';
 import ConsoleLogger from 'nightingale-console';
 

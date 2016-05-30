@@ -6,6 +6,7 @@ import * as display from './display';
 const logger = new Logger('app.screen');
 
 export let currentScreenState = state();
+logger.info('init', { currentScreenState });
 
 /**
  * @returns {string} on|off|unavailable

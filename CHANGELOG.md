@@ -1,3 +1,7 @@
+### v6.0.0-7
+
+- [`b9ffa1f`](https://github.com/christophehurpeau/raspberry-client/commit/b9ffa1f091ae6dfd17573d382644c54087cbbd14) dont start child if openbox not started (Christophe Hurpeau)
+
 ### v6.0.0-6
 
 - [`ae0c9f1`](https://github.com/christophehurpeau/raspberry-client/commit/ae0c9f17ece2a945020a74f3ef28eada1a2b59cf) configstore (Christophe Hurpeau)

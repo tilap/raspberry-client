@@ -11,14 +11,6 @@ export function selfUpdate() {
     sendUpdate({ updating: true });
     logger.info('self update');
     try {
-        spawnSync('git', ['fetch'], { stdio: 'inherit', cwd: `${__dirname}/../` });
-        const { stdout } = spawnSync('git', ['status', '--porcelain', '-b'], { cwd: `${__dirname}/../` });
-        if (!stdout.toString().includes('behind')) {
-            logger.info('nothing to update');
-            sendUpdate({ updating: false });
-            return false;
-        }
-
         spawnSync('sudo', ['npm', 'install', '-g', 'raspberry-client'], { stdio: 'inherit', cwd: `${__dirname}/../` });
         const newVersion = JSON.parse(readFileSync(`${__dirname}/../package.json`)).version;
         if (newVersion !== currentVersion) {

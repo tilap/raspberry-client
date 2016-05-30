@@ -27,18 +27,6 @@ function selfUpdate() {
     (0, _client.sendUpdate)({ updating: true });
     logger.info('self update');
     try {
-        (0, _child_process.spawnSync)('git', ['fetch'], { stdio: 'inherit', cwd: `${ __dirname }/../` });
-
-        var _spawnSync = (0, _child_process.spawnSync)('git', ['status', '--porcelain', '-b'], { cwd: `${ __dirname }/../` });
-
-        const stdout = _spawnSync.stdout;
-
-        if (!stdout.toString().includes('behind')) {
-            logger.info('nothing to update');
-            (0, _client.sendUpdate)({ updating: false });
-            return false;
-        }
-
         (0, _child_process.spawnSync)('sudo', ['npm', 'install', '-g', 'raspberry-client'], { stdio: 'inherit', cwd: `${ __dirname }/../` });
         const newVersion = JSON.parse((0, _fs.readFileSync)(`${ __dirname }/../package.json`)).version;
         if (newVersion !== _package.version) {

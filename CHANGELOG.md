@@ -1,3 +1,7 @@
+### v6.0.0-9
+
+- [`019b086`](https://github.com/christophehurpeau/raspberry-client/commit/019b0868c7537faed510aa6c797e7d8bd6136c8b) fix close resolve (Christophe Hurpeau)
+
 ### v6.0.0-8
 
 - [`b7c1ab1`](https://github.com/christophehurpeau/raspberry-client/commit/b7c1ab1d9172613a4dd994a7690c1ed4b2a42eb0) fix update script (Christophe Hurpeau)

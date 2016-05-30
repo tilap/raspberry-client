@@ -1,3 +1,7 @@
+### v6.0.0-4
+
+- [`ac1b028`](https://github.com/christophehurpeau/raspberry-client/commit/ac1b02838b134fd62ece12338fa724765dde5060) upgrade with npm install -g (Christophe Hurpeau)
+
 ### v6.0.0-3
 
 - [`63571b7`](https://github.com/christophehurpeau/raspberry-client/commit/63571b746d4ffb9caebf06d594ae02f542a089b7) socket cli (Christophe Hurpeau)

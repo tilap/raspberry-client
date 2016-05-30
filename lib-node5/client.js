@@ -126,10 +126,11 @@ function close() {
 
     return new Promise(resolve => {
         logger.info('Closing...');
-        socket.close();
         socket.once('disconnect', () => {
+            logger.info('Closed');
             resolve();
         });
+        socket.close();
     });
 }
 //# sourceMappingURL=client.js.map

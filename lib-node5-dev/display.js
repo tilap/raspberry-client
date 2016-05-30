@@ -121,9 +121,9 @@ function start() {
         if (startOpenBox() !== 'started') {
             logger.warn('openbox not yet started');
             return;
+        } else {
+            startChild();
         }
-
-        startChild();
     }
 }
 

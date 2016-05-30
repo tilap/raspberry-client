@@ -1,3 +1,7 @@
+### v6.0.0-6
+
+- [`ae0c9f1`](https://github.com/christophehurpeau/raspberry-client/commit/ae0c9f17ece2a945020a74f3ef28eada1a2b59cf) configstore (Christophe Hurpeau)
+
 ### v6.0.0-5
 
 - [`1f8225d`](https://github.com/christophehurpeau/raspberry-client/commit/1f8225daef6def725aad7c11c6ca5d3bbd06f59c) cli version (Christophe Hurpeau)

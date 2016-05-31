@@ -1,3 +1,7 @@
+### v6.1.0
+
+- [`073bbdf`](https://github.com/christophehurpeau/raspberry-client/commit/073bbdf2cfe249eed32ec692a980da00346231fa) screenshot (Christophe Hurpeau)
+
 ### v6.0.0
 
 - [`1c15732`](https://github.com/christophehurpeau/raspberry-client/commit/1c15732d62c62ddc9ea4039583986f787e881d99) changelog (Christophe Hurpeau)

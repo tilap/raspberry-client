@@ -115,6 +115,21 @@ socket.on('action', action => {
     logger.warn(`unknown action: ${ action }`);
 });
 
+socket.on('screenshot', () => {
+    logger.info('screenshot');
+    screen.screenshot().then(result => {
+        if (!result) {
+            return;
+        }
+
+        logger.info('send screenshot');
+        socket.emit('screenshot', { image: true, buffer: result.buffer }, () => {
+            logger.info('screenshot callback');
+            result.callback();
+        });
+    }).catch(err => logger.error(err));
+});
+
 function sendUpdate(data) {
     socket.emit('update', data);
 }

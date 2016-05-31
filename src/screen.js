@@ -1,3 +1,5 @@
+import { readFile, unlinkSync } from 'fs';
+import { tmpdir } from 'os';
 import Logger from 'nightingale';
 import { runScript } from './scripts';
 import { sendUpdate } from './client';
@@ -33,4 +35,39 @@ export function off() {
 
 if (currentScreenState === 'on') {
     display.start();
+}
+
+let lockScreenshot;
+
+export async function screenshot() {
+    if (currentScreenState !== 'on') {
+        logger.warn('screenshot: screen is off');
+        return;
+    }
+
+    if (lockScreenshot) {
+        logger.warn('screenshot: locked');
+        return;
+    }
+
+    logger.info('getting screenshot');
+
+    const filename = `${tmpdir()}/screenshot.png`;
+    lockScreenshot = true;
+    runScript('./screen.sh', ['screenshot', filename]);
+
+    return new Promise((resolve, reject) => {
+        readFile(filename, (err, buffer) => {
+            lockScreenshot = false;
+            resolve({
+                buffer,
+                callback: () => {
+                    try {
+                        unlinkSync(filename);
+                    } catch (err) {
+                    }
+                },
+            });
+        });
+    });
 }

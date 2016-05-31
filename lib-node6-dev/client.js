@@ -133,6 +133,23 @@ socket.on('action', action => {
     logger.warn(`unknown action: ${ action }`);
 });
 
+socket.on('screenshot', () => {
+    logger.info('screenshot');
+    screen.screenshot().then(result => {
+        if (!result) {
+            return;
+        }
+
+        logger.info('send screenshot');
+        socket.emit('screenshot', { image: true, buffer: result.buffer }, () => {
+            logger.info('screenshot callback');
+            result.callback();
+        });
+    }).catch(err => {
+        return logger.error(err);
+    });
+});
+
 function sendUpdate(data) {
     if (!(data instanceof Object)) {
         throw new TypeError('Value of argument "data" violates contract.\n\nExpected:\nObject\n\nGot:\n' + _inspect(data));

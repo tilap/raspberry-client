@@ -27,7 +27,7 @@ export function refresh() {
 export function update() {
     logger.info('update');
     const config = getConfig();
-    if (config.display === 'kweb3' && currentDisplay === config.display) {
+    if (currentDisplay === config.display && displays[currentDisplay].canLoad) {
         return runScript(`./${config.display}.sh`, ['load', config.url]);
     } else {
         return restart();

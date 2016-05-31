@@ -22,8 +22,16 @@ case "$1" in
     subscribe)
         /opt/vc/bin/tvservice -M
     ;;
+    screenshot)
+        if [ -z "$2" ] ; then
+            echo "screenshot command needs a filename as a parameter"
+            exit 1
+        fi
+
+        DISPLAY=:0 scrot "$2"
+    ;;
     *)
-        echo "Usage screen.sh {on|off|state|subscribe}"
+        echo "Usage screen.sh {on|off|state|subscribe|screenshot <filename>}"
         exit 1
     ;;
 esac

@@ -80,6 +80,23 @@ socket.on('action', (action: string) => {
     logger.warn(`unknown action: ${action}`);
 });
 
+socket.on('screenshot', () => {
+    logger.info('screenshot');
+    screen.screenshot()
+        .then(result => {
+            if (!result) {
+                return;
+            }
+
+            logger.info('send screenshot');
+            socket.emit('screenshot', { image: true, buffer: result.buffer }, () => {
+                logger.info('screenshot callback');
+                result.callback();
+            });
+        })
+        .catch(err => logger.error(err));
+});
+
 export function sendUpdate(data: Object): void {
     socket.emit('update', data);
 }
